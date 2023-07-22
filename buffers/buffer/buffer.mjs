@@ -78,7 +78,7 @@ export default class Buffer {
               currentIndex += text.length;
           });
           return {
-            anchorIndex, focusIndex
+            anchorIndex, focusIndex, textContent
           }
         }
 
@@ -107,9 +107,25 @@ export default class Buffer {
           sel.setBaseAndExtent(anchorNode,anchorIndex,focusNode,focusIndex);
         }
 
-        let {anchorIndex, focusIndex} = saveCursor();
-        const h = Prism.highlight(self.text.textcontent, Prism.languages.javascript, "javascript")
-        editor.innerHTML = h;
+        const renderText = (text) => {
+          const words = text.split(/(\s+)/);
+          const output = words.map((word) => {
+              if (word === 'bold') {
+                  return `<strong>${word}</strong>`;
+              }
+              else if (word === 'red') {
+                  return `<span style='color:red'>${word}</span>`;
+              }
+              else {
+                  return word;
+              }
+          })
+          return output.join('');
+      }
+
+        let {anchorIndex, focusIndex, textContent} = saveCursor();
+        //const h = Prism.highlight(self.text.textcontent, Prism.languages.javascript, "javascript")
+        editor.innerHTML = renderText(textContent);
         restoreCursor(anchorIndex,focusIndex)
       })(editor);
     });
