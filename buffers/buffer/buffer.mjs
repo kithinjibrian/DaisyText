@@ -42,7 +42,7 @@ export default class Buffer {
         };
       })();
 
-      (function () {
+      (function (editor) {
         const getTextSegments = (element) => {
           const textSegments = [];
           Array.from(element.childNodes).forEach((node) => {
@@ -111,7 +111,7 @@ export default class Buffer {
         const h = Prism.highlight(self.text.textcontent, Prism.languages.javascript, "javascript")
         d.innerHTML = h;
         restoreCursor(anchorIndex,focusIndex)
-      })();
+      })(editor);
     });
   }
 }
