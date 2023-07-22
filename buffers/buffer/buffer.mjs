@@ -20,7 +20,7 @@ export default class Buffer {
     return /*html*/ `
     <div style="max-height: 85vh; outline: 0" class="overflow-y-auto">
       <!--<div id="line-numbers"></div>-->
-      <div spellcheck="false" contentEditable="true"  style="outline: 0" id="paper"></div>
+      <div spellcheck="false" contentEditable="true"  style="outline: 0" id="paper">function</div>
     </div>
     `;
   }
