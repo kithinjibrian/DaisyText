@@ -34,28 +34,6 @@ export default class Buffer {
     Pubsub.subscribe("typing", () => {
       const d = document.getElementById("paper");
 
-      const saveCursor = (element) => {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-          const range = selection.getRangeAt(0);
-          const preCaretRange = range.cloneRange();
-          preCaretRange.selectNodeContents(element);
-          preCaretRange.setEnd(range.endContainer, range.endOffset);
-          return preCaretRange.toString().length;
-        }
-        return 0;
-      };
-
-      const restoreCursor = (element, position) => {
-        const textNode = element.firstChild;
-        const range = document.createRange();
-        range.setStart(textNode, position);
-        range.setEnd(textNode, position);
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-      };
-
       (function () {
         self.text = {
           innertext: d.innerText,
@@ -65,14 +43,8 @@ export default class Buffer {
       })();
 
       (function () {
-        self.selection = saveCursor(d);
-        const pattern = new RegExp("\\b(" + ["let"].join("|") + ")\\b", "g");
-        const h = self.text.textcontent.replace(
-          pattern,
-          `<span style="color:red">$1</span>`
-        );
+        const h = Prism.highlight(self.text.textcontent, Prism.languages.javascript, "javascript")
         d.innerHTML = h;
-        restoreCursor(d, self.selection);
       })();
     });
   }
