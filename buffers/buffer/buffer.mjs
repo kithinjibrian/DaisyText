@@ -61,7 +61,7 @@ export default class Buffer {
           });
           return textSegments;
         }
-        const saveCursor = (editor) => {
+        const saveCursor = () => {
           const sel = window.getSelection();
           const textSegments = getTextSegments(editor);
           const textContent = textSegments.map(({text}) => text).join('');
