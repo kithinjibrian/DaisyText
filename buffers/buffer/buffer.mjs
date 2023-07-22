@@ -124,8 +124,8 @@ export default class Buffer {
       }
 
         let {anchorIndex, focusIndex, textContent} = saveCursor();
-        //const h = Prism.highlight(self.text.textcontent, Prism.languages.javascript, "javascript")
-        editor.innerHTML = renderText(textContent);
+        const h = Prism.highlight(textContent, Prism.languages.javascript, "javascript")
+        editor.innerHTML = h;
         restoreCursor(anchorIndex,focusIndex)
       })(editor);
     });
