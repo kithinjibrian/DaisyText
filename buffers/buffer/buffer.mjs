@@ -109,7 +109,7 @@ export default class Buffer {
 
         let {anchorIndex, focusIndex} = saveCursor();
         const h = Prism.highlight(self.text.textcontent, Prism.languages.javascript, "javascript")
-        d.innerHTML = h;
+        editor.innerHTML = h;
         restoreCursor(anchorIndex,focusIndex)
       })(editor);
     });
