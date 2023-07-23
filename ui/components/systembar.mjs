@@ -1,12 +1,12 @@
-import Buffers from "../../buffers/buffers.mjs";
+import Tabs from "../../tabs/tabs.mjs";
 
 const { reactive } = Vue;
 
 export default {
   setup() {
-    const buffers = reactive(Buffers.get());
+    const tabs = reactive(Tabs.get());
     const newFile = () => {
-      buffers.add("untitled", {});
+      tabs.add("untitled", {});
     };
 
     return {

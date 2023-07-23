@@ -1,16 +1,16 @@
-import Buffers from "../../buffers/buffers.mjs";
+import Tabs from "../../tabs/tabs.mjs";
 import Pubsub from "../../pubsub/pubsub.mjs";
 
 const { ref, reactive } = Vue;
 
 export default {
   setup() {
-    const buffers = reactive(Buffers.get());
+    const tabs = reactive(Tabs.get());
     const tab = ref(null);
 
     return {
       tab,
-      buffers,
+      tabs,
     };
   },
   template: /*html*/ `
@@ -27,11 +27,11 @@ export default {
     <v-card-text class="pr-0">
       <v-window v-model="tab">
         <v-window-item
-        v-for="(buffer,n) in Array.from(buffers)"
+        v-for="(_tab,n) in Array.from(tabs)"
         :key="n"
-        :value="buffer.name"
-        v-html="buffer[1].render()"
-        @input="buffer[1].publish">
+        :value="_tab.name"
+        v-html="_tab[1].render()"
+        @input="_tab[1].publish">
         </v-window-item>
       </v-window>
     </v-card-text>

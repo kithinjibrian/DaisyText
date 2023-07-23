@@ -1,29 +1,29 @@
-import Buffer from "./buffer/buffer.mjs";
+import TextBuffer from "./textbuffer/textbuffer.mjs";
 import Pubsub from "../pubsub/pubsub.mjs";
 import Memento from "../memento/memento.mjs";
 //
 const strategy = {
   textbuffer(opts) {
-    return new Buffer(opts);
+    return new TextBuffer(opts);
   },
 };
 
-class Buffers {
-  //declare private property buffers for holding buffer objects
+class Tabs {
+  //declare private property tabs for holding buffer objects
   constructor(opts) {
-    if (!Buffers.instance) {
-      Buffers.instance = this;
+    if (!Tabs.instance) {
+      Tabs.instance = this;
     }
     //default values
     const def = {};
 
     //Assign options to default one if they are provided
     Object.assign(def, opts);
-    //assign buffers to empty map
-    this.buffers = new Map();
+    //assign tabs to empty map
+    this.tabs = new Map();
     //method for listening events associated with this class'
     this.subscribe();
-    return Buffers.instance;
+    return Tabs.instance;
   }
 
   get() {
@@ -37,9 +37,9 @@ class Buffers {
    */
   add(name, buffer) {
     let n = `${name}-${Math.floor(Math.random() * 10)}`;
-    this.buffers.set(n, strategy["textbuffer"](buffer));
-    //publish event buffers have changed
-    this.publish(this.buffers);
+    this.tabs.set(n, strategy["textbuffer"](buffer));
+    //publish event tabs have changed
+    this.publish(this.tabs);
   }
 
   /**
@@ -49,29 +49,29 @@ class Buffers {
    */
   getBuffer(name) {
     //check if buffer object exist, if not throw an error.
-    if (!this.buffers.has(name)) throw new Error("Buffer doesn't exist!");
-    return this.buffers.get(name);
+    if (!this.tabs.has(name)) throw new Error("Buffer doesn't exist!");
+    return this.tabs.get(name);
   }
 
   /**
-   * publish - publish event to notify buffers have changed
+   * publish - publish event to notify tabs have changed
    */
-  publish(buffers) {
-    Pubsub.publish("buffersUpdated", buffers);
+  publish(tabs) {
+    Pubsub.publish("tabsUpdated", tabs);
   }
 
   /**
    * subscribe - listen for events
    */
   subscribe() {
-    Pubsub.subscribe("buffersUpdated", (buffers) => {
-      //buffers.get("index.mjs").render();
+    Pubsub.subscribe("tabsUpdated", (tabs) => {
+      //tabs.get("index.mjs").render();
     });
   }
 
   *[Symbol.iterator]() {
-    yield* this.buffers;
+    yield* this.tabs;
   }
 }
 
-export default new Buffers();
+export default new Tabs();
