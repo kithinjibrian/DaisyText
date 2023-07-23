@@ -55,7 +55,7 @@ export default class Buffer {
               range.setStart(node, pos);
               range.collapse(true);
               sel.removeAllRanges();
-              sel.addRange()
+              sel.addRange(range)
               return -1 
             } else {
               pos = pos - node.length
