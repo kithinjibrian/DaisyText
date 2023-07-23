@@ -75,7 +75,7 @@ export default class Buffer {
       const highlight = (editor) => {
         for(const node of editor.children) {
           const s =  Prism.highlight(node.textContent, Prism.languages["javascript"], "javascript")
-          node.innerHTML = s.split('\n').join('<br/>')
+          node.innerHTML = s//.split('\n').join('<br/>')
         }
       }
       const pos = getCaret(editor)
