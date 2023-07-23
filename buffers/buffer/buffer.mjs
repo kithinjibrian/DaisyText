@@ -29,7 +29,7 @@ export default class Buffer {
   }
 
   publish(e) {
-    if (e.keyCode >= 0x30 || e.keyCode == 0x20) {
+    if (e.data !== null) {
       Pubsub.publish("typing", null);
     }
   }
