@@ -36,14 +36,15 @@ export default class Buffer {
     const self = this;
     Pubsub.subscribe("typing", () => {
       const editor = document.getElementById('editor');
+      const text = editor.textContent;
 
       const highlight = (editor) => {
         for(const node of editor.children) {
-          const s = node.textContent;
-          s.replace(
+          const s = node.textContent.replace(
           /\b(new|if|else|do|while|switch|for|in|of|continue|break|return|typeof|function|var|const|let|\.length|\.\w+)(?=[^\w])/g,
           '<span style="class:red">$1</span>');
-          node.innerHTML = s
+          console.log(s)
+          node.innerHTML = s.split('\n').join('<br/>')
         }
       }
       highlight(editor)
