@@ -29,6 +29,7 @@ export default class Buffer {
   }
 
   publish(e) {
+    console.log(e)
     if (e.data !== null) {
       Pubsub.publish("typing", null);
     }
