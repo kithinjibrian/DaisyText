@@ -5,9 +5,7 @@
 #editor div::before {
   content: counter(line);
   counter-increment: line;
-  padding-right: 10px;
-  text-align: right;
-  display: inline-block;
-  width: 30px;
+  position: absolute;
+  right: calc(100% + 16px);
   color: #999;
 }
