@@ -38,7 +38,17 @@ export default class Buffer {
       const editor = document.getElementById('editor');
       const text = editor.textContent;
 
+      const caret = (editor) => {
+        const range = window.getSelection().getRangeAt(0);
+        const prefix = range.cloneRange();
+        prefix.selectNodeContents(editor);
+        prefix.setEnd(range.endContainer, range.endOffset);
+        return prefix.toString().length;
+      }
+
       const highlight = (editor) => {
+        const selection = caret(editor);
+        console.log(selection)
         for(const node of editor.children) {
           const s = node.textContent.replace(
           /\b(new|if|else|do|while|switch|for|in|of|continue|break|return|typeof|function|var|const|let|\.length|\.\w+)(?=[^\w])/g,
