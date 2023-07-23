@@ -43,7 +43,7 @@ export default class Buffer {
           const s = node.innerText;
           s.replace(
           /\b(new|if|else|do|while|switch|for|in|of|continue|break|return|typeof|function|var|const|let|\.length|\.\w+)(?=[^\w])/g,
-          '<strong>$1</strong>');
+          '<span style="class:red">$1</span>');
           node.innerHTML = s.split('\n').join('<br/>')
         }
       }
