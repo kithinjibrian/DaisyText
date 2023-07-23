@@ -74,7 +74,9 @@ export default class Buffer {
 
       const highlight = (editor) => {
         for(const node of editor.children) {
-          const s =  Prism.highlight(node.textContent, Prism.languages["javascript"], "javascript")
+          const s = node.textContent.replace(
+          /\b(new|if|else|do|while|switch|for|in|of|continue|break|return|typeof|function|var|const|let|\.length|\.\w+)(?=[^\w])/g,
+          '<span style="color:red">$1</span>');
           node.innerHTML = s.split('\n').join('<br/>')
         }
       }
