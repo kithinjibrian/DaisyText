@@ -38,7 +38,7 @@ export default class Buffer {
       const editor = document.getElementById('editor');
       const text = editor.textContent;
 
-      const caret = (editor) => {
+      const getCaret = (editor) => {
         const range = window.getSelection().getRangeAt(0);
         const prefix = range.cloneRange();
         prefix.selectNodeContents(editor);
@@ -46,18 +46,41 @@ export default class Buffer {
         return prefix.toString().length;
       }
 
+      const setCaret = (pos, editor) => {
+        for (const node of editor.childNodes) {
+          if(node.nodeType == Node.TEXT_NODE) {
+            if(node.length >= pos) {
+              const range = document.createRange();
+              const sel = window.getSelection();
+              range.setStart(node, pos);
+              range.collapse(true);
+              sel.removeAllRanges();
+              sel.addRange()
+              return -1 
+            } else {
+              pos = pos - node.length
+            }
+          } else {
+            pos = setCaret(pos, node);
+            if (pos < 0) {
+              return pos;
+            }
+          }
+        }
+        return pos;
+      }
+
       const highlight = (editor) => {
-        const selection = caret(editor);
-        console.log(selection)
         for(const node of editor.children) {
           const s = node.textContent.replace(
           /\b(new|if|else|do|while|switch|for|in|of|continue|break|return|typeof|function|var|const|let|\.length|\.\w+)(?=[^\w])/g,
           '<span style="color:red">$1</span>');
-          console.log(s)
           node.innerHTML = s.split('\n').join('<br/>')
         }
       }
+      const pos = getCaret(editor)
       highlight(editor)
+      setCaret(pos, editor)
     });
   }
 }
