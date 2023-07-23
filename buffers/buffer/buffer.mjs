@@ -19,7 +19,6 @@ export default class Buffer {
   render() {
     return /*html*/ `
     <div style="max-height: 85vh; outline: 0" class="overflow-y-auto">
-      <!--<div id="line-numbers"></div>-->
       <div spellcheck="false" contentEditable="true"  style="outline: 0" id="paper">
       <div>function fn() {</div>
       <div>let a = 40;</div>
@@ -36,6 +35,12 @@ export default class Buffer {
   subscribe() {
     const self = this;
     Pubsub.subscribe("typing", () => {
+      const editor = document.getElementById('paper');
+      const text = editor.textContent;
+
+      const highlight = (text, editor) => {
+
+      }
     });
   }
 }
