@@ -1,4 +1,4 @@
-import TextBuffer from "./textbuffer/textbuffer.mjs";
+import TextBuffer from "./textBuffer/textbuffer.mjs";
 import Pubsub from "../pubsub/pubsub.mjs";
 import Memento from "../memento/memento.mjs";
 //
@@ -49,7 +49,7 @@ class Tabs {
    */
   getBuffer(name) {
     //check if buffer object exist, if not throw an error.
-    if (!this.tabs.has(name)) throw new Error("Buffer doesn't exist!");
+    if (!this.tabs.has(name)) throw new Error("Tab doesn't exist!");
     return this.tabs.get(name);
   }
 

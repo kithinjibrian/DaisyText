@@ -1,6 +1,6 @@
 import Pubsub from "../../pubsub/pubsub.mjs";
 
-export default class Buffer {
+export default class TextBuffer {
   constructor(opts) {
     const def = {
       language: "js",
