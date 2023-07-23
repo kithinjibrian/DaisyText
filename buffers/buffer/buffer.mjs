@@ -38,9 +38,17 @@ export default class Buffer {
       const editor = document.getElementById('editor');
       const text = editor.textContent;
 
-      const highlight = (text, editor) => {
-
+      const highlight = (editor) => {
+        for(const node of editor) {
+          const s = node.innerText;
+          s.replace(
+          /\b(new|if|else|do|while|switch|for|in|of|continue|break|return|typeof|function|var|const|let|\.length|\.\w+)(?=[^\w])/g,
+          '<strong>$1</strong>',);
+          node.innerHTML = s.split('\n').join('<br/>')
+        }
       }
+
+      highlight(editor)
     });
   }
 }
