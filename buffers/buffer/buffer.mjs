@@ -42,7 +42,7 @@ export default class Buffer {
         for(const node of editor.children) {
           const s = node.textContent.replace(
           /\b(new|if|else|do|while|switch|for|in|of|continue|break|return|typeof|function|var|const|let|\.length|\.\w+)(?=[^\w])/g,
-          '<span style="class:red">$1</span>');
+          '<span style="color:red">$1</span>');
           console.log(s)
           node.innerHTML = s.split('\n').join('<br/>')
         }
