@@ -31,7 +31,7 @@ export default {
         :key="n"
         :value="buffer.name"
         v-html="buffer[1].render()"
-        @input="() => buffer[1].publish()">
+        @input="(e) => buffer[1].publish(e)">
         </v-window-item>
       </v-window>
     </v-card-text>

@@ -28,8 +28,10 @@ export default class Buffer {
     `;
   }
 
-  publish() {
-    Pubsub.publish("typing", null);
+  publish(e) {
+    if (e.keyCode >= 0x30 || e.keyCode == 0x20) {
+      Pubsub.publish("typing", null);
+    }
   }
 
   subscribe() {
