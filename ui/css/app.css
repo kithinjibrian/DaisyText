@@ -2,12 +2,17 @@
   counter-reset: line;
 }
 
-#editor div::before {
+#editor > div {
+  white-space: pre;
+  font-size: 18px;
+}
+
+#editor > div::before {
   content: counter(line);
   counter-increment: line;
-  padding-right: 10px;
-  text-align: right;
+  color: #ccc;
+  padding-right: 10xp;
   display: inline-block;
-  width: 30px;
-  color: #999;
+  width:3%;
+  text-align: left;
 }

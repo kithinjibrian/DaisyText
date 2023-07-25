@@ -1,43 +1,95 @@
 import Pubsub from "../../pubsub/pubsub.mjs";
+import PieceTable from "./dsa/piecetable.mjs";
+import { getCaret,setCaret, run } from "./utils/utils.mjs";
 
 export default class TextBuffer {
   constructor(opts) {
     const def = {
       language: "js",
-      text: null,
       name: "untitled",
     };
 
     Object.assign(def, opts);
 
-    this.text = def.text;
+    this.piecetable = new PieceTable(`hello\nworld`);
     this.name = def.name;
-    this.selection = window.getSelection();
     this.subscribe();
   }
 
   render() {
     return /*html*/ `
     <div style="max-height: 85vh; outline: 0" class="overflow-y-auto">
-      <div spellcheck="false" contentEditable="true"  style="outline: 0" id="editor">
-      <div>function fn() {</div>
-      <div>let a = 40;</div>
-      <div>}</div>
-      </div>
+      <div spellcheck="false" contentEditable="true"  style="outline: 0" id="editor"></div>
     </div>
     `;
   }
 
-  publish(e) {
-    console.log(e)
-    if (e.data !== null) {
-      Pubsub.publish("typing", null);
+  publish(event,type) {
+    const self = this;
+    let editor = document.getElementById('editor');
+    if(type === "input" && event.data !== null) {
+      Pubsub.publish("typing", event.data, 0);
+    } else if(type == 'keydown') {
+      if(event.key == 'Enter') {
+        event.preventDefault()
+        Pubsub.publish("typing", "\n", 1)
+      }
+      if(event.key == 'Backspace') {
+        event.preventDefault()
+        Pubsub.publish("deleting", null)
+      }
+      if(event.key == "Tab") {
+        event.preventDefault()
+        Pubsub.publish("typing", "  ", 1)
+      }
+    } else if(type=='click') {
+      console.log(getCaret(editor), self.piecetable.getSequence().split('')[getCaret(editor) - 1])
     }
   }
 
   subscribe() {
     const self = this;
-    Pubsub.subscribe("typing", () => {
+    Pubsub.subscribe("typing", (data, n) => {
+      let editor = document.getElementById('editor');
+      const save = (data,index) => {
+        self.piecetable.insert(data, index);
+        return self.piecetable.getSequence();
+      }
+      const index = getCaret(editor) + n
+      editor.innerHTML = run(save(data, index - 1))
+      setCaret(index, editor)
+    })
+
+    Pubsub.subscribe("deleting", ()=>{
+      const editor = document.getElementById('editor');
+      const index = getCaret(editor);
+
+      const del = (index) => {
+        if(index > 0) {
+          self.piecetable.delete(index - 1, 1); 
+        }
+        return self.piecetable.getSequence()
+      };
+
+      editor.innerHTML = run(del(index));
+      if(index > 0) setCaret(index - 1, editor);
+    })
+
+    Pubsub.subscribe("newline", ()=>{
+      const editor = document.getElementById('editor');
+    })
+  }
+}
+
+
+
+
+
+
+
+
+/**
+ * Pubsub.subscribe("typing", () => {
       const editor = document.getElementById('editor');
       const text = editor.textContent;
 
@@ -85,5 +137,4 @@ export default class TextBuffer {
       highlight(editor)
       setCaret(pos, editor)
     });
-  }
-}
+ */

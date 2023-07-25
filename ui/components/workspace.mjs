@@ -19,9 +19,9 @@ export default {
       v-model="tab"
     >
       <v-tab
-      v-for="(buffer,n) in Array.from(buffers)"
+      v-for="(_tab,n) in Array.from(tabs)"
       :key="n"
-      :value="buffer.name">{{buffer[0]}}</v-tab>
+      :value="_tab.name">{{_tab[0]}}</v-tab>
     </v-tabs>
 
     <v-card-text class="pr-0">
@@ -31,7 +31,9 @@ export default {
         :key="n"
         :value="_tab.name"
         v-html="_tab[1].render()"
-        @input="_tab[1].publish">
+        @click="_tab[1].publish($event,'click')"
+        @keydown="_tab[1].publish($event,'keydown')"
+        @input="_tab[1].publish($event,'input')">
         </v-window-item>
       </v-window>
     </v-card-text>
